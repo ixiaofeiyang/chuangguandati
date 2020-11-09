@@ -1,87 +1,58 @@
-最近几天一直在开发一个答题闯关小程序，目前该小程序已正式发布，收到很好的运营效果
+## 项目介绍
+守护者消防安全知识答题小程序
 
-本文背景
+马上就119了，应景开发了一个消防知识答题闯关小程序，
 
-我个人做答题小程序有一段时间了，陆陆续续出过刷题小程序、考研答题小程序、成语答题小程序，党建答题小程序，截止今天我可以说产品系列可以新增一成语：闯关答题小程序
+## 联系方式
 
-小程序目前已发布上线，由于各方面都还需要时间不断迭代完善，暂定该版本为v1.0
+如需搭建消费答题小程序请联系开发者微信：xfy6369
 
-本文内容
+## 本文背景
+今天是该小程序正式开放运营的第一天，参与答题的用户数据，我通过控制台看了下有88人，67人完成了答题，也就是闯关成功
 
-本文主要简单介绍目前闯关答题小程序实现的功能
-
-1）小程序首页
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201102200814229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NzM5NTY5NA==,size_16,color_FFFFFF,t_70#pic_center)
-
-
-2）答题
-
-3）活动规则介绍页
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020110220083019.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NzM5NTY5NA==,size_16,color_FFFFFF,t_70#pic_center)
-
-
-4）奖励介绍页
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201102200842692.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NzM5NTY5NA==,size_16,color_FFFFFF,t_70#pic_center)
-
-5）错题展示页
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201102200850881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NzM5NTY5NA==,size_16,color_FFFFFF,t_70#pic_center)
-
-
-6）排名页
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201102200835727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NzM5NTY5NA==,size_16,color_FFFFFF,t_70#pic_center)
-
-
-作为一个常规的答题活动小程序具有首页、答题、排名、活动规则介绍页之外，该小程序的特殊之处在于新增了分享复活这个逻辑
-
-由于目前分享已不能获得是否成功还是失败的回调，所以只要发起分享，便认为是一次成功的分享，获取一次复活卡
-
-界面截图
-
-小程序首页
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1102/201201_2578019e_1307964.png "屏幕截图.png")
+今日用户数据截图
 
 
 
-
-
-截图二
-
-
-[图片上传中…(image-8Kt7iUqqquBVXPY0nkYY)]
+数据库集合截图如下
 
 
 
-截图三
+## 闯关规则
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1107/142244_3117686b_1307964.png "屏幕截图.png")
 
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1102/201145_1418f030_1307964.png "屏幕截图.png")
+## 相关问题
+文章的标题为复盘所以我讲下从开发到上线运营遇到的一些问题
 
+1）云函数异常导致订阅消息发送失败
 
+订阅消息为云函数发送，由于今天云函数的异常导致有二条订阅消息发送失败，因为闯关成功是推送消息的，而且线下抽奖也是凭订阅消息，所以如果订阅消息发送失败，那么就导致已成功闯关，但无法抽奖。
 
-截图四
+备注：每个微信号每天只能参与答题一次
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1102/201150_b7287730_1307964.png "屏幕截图.png")
+目前小程序未对发送失败进行处理，这个地方后期可迭代优化掉
+
+该问题在社区已提问，具体帖子如下所示
+
+云函数报错？? - 微信开放社区 https://developers.weixin.qq.com/community/develop/doc/0000a0c56189a06a6a3b2acff5b000
+
+2）分享复活
+
+由于目前分享之后没有成功或者失败的回调，所以在这个地方存在一些问题，由于闯关答题是有倒计时，时间限制的，所以用户分享解锁之后，倒计时的开始时间不好把握，因为我目前对分享操作的回调触发是用户弹出分享窗口就开始还是分享出去才算 开始，如下图所示
 
 
 
 
-截图五
 
-
-[图片上传中…(image-a4AQjNuLrIHenr4kIOy2)]
-
-
-
-截图五
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1102/201201_346f7820_1307964.png "屏幕截图.png")
+从下图的调试信息可以看到，当出现这个分享弹窗的时候，倒计时已经开始了，这不是预期的效果。
 
 
 
+ 
 
-参考资料
-
+## 参考资料
 1）小程序分享及用户信息授权等接口能力的调整通知
 
 https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11536230584k14IW&version=&lang=zh_CN&token=
@@ -90,6 +61,42 @@ https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=115
 
 https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11526372695t90Dn&version=&lang=zh_CN&token=
 
-本文总结
+3）“分享监听”能力调整? - 微信开放社区 https://developers.weixin.qq.com/community/develop/doc/0000447a5b431807af57249a551408
 
-本文主要分享了一个闯关答题小程序，目前该小程序已发布上线，后续会随着用户的使用反馈，进行版本的不断迭代升级
+ 
+
+## 界面截图
+ 
+
+截图一
+ ![输入图片说明](https://images.gitee.com/uploads/images/2020/1107/142050_08c06e67_1307964.png "屏幕截图.png")
+
+
+截图二
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1107/142124_97d3c2a2_1307964.png "屏幕截图.png")
+
+
+截图三
+
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1107/142129_46e71813_1307964.png "屏幕截图.png")
+截图四
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1107/142134_07eaefa7_1307964.png "屏幕截图.png")
+
+截图五
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1107/142140_0aa99a13_1307964.png "屏幕截图.png")
+
+截图六
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1107/142147_b7b0b417_1307964.png "屏幕截图.png")
+
+截图七
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1107/142154_2823f68b_1307964.png "屏幕截图.png")
+
+截图八
+
+## 本文总结
+该小程序区别于以往我的答题小程序，在交互上更友好一些，更适合于做一些带娱乐性质的答题活动，后续小程序开发方向还有待市场检验，后面也会继续迭代一些其他功能，未来可期
